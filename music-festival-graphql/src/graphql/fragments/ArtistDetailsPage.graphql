@@ -1,0 +1,12 @@
+fragment ArtistDetailsPage on ArtistDetailsPage {
+    PerformanceStartTime
+    PerformanceEndTime
+    StageName
+    ArtistName
+    ArtistPhoto
+    ArtistGenre
+    ArtistDescription
+    ArtistIsHeadliner
+    Name
+    RelativePath
+}

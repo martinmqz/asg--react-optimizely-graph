@@ -1,0 +1,90 @@
+query Start(
+    $relativePath: String
+    $locale: [Locales] = en
+    $stageName: String
+    $artistGenre: String
+) {
+    Content(
+        locale: $locale
+        where: {
+            RelativePath: {
+                eq: $relativePath
+            }
+        }
+        limit: 1
+    ) {
+        items {
+            Name
+            Url
+            __typename
+            RelativePath
+            ... on LandingPage {
+                ...LandingPage
+                _children {
+                    ArtistContainerPage {
+                        items {
+                            Name
+                            RelativePath
+                            headlines: _children {
+                                ArtistDetailsPage(
+                                    where: {
+                                        ArtistIsHeadliner: {
+                                            eq: true
+                                        }
+                                    }
+                                    orderBy: {
+                                        PerformanceStartTime: ASC,
+                                        Name: ASC
+                                    }
+                                ) {
+                                    items {
+                                        ...ArtistDetailsPage
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ... on ArtistContainerPage {
+                Name
+                RelativePath
+                artists: _children {
+                    ArtistDetailsPage(
+                        where: {
+                            StageName: {
+                                eq: $stageName
+                            }
+                            ArtistGenre: {
+                                eq: $artistGenre
+                            }
+                        }
+                        orderBy: {
+                            ArtistIsHeadliner: ASC,
+                            PerformanceStartTime: ASC,
+                            StageName: ASC,
+                            Name: ASC
+                        }
+                    ) {
+                        items {
+                            ...ArtistDetailsPage
+                        }
+                        facets {
+                            ArtistGenre(orderType: VALUE, orderBy: ASC, limit: 10) {
+                                name
+                                count
+                            }
+                            StageName(orderType: VALUE, orderBy: ASC, limit: 10) {
+                                name
+                                count
+                            }
+                        }
+                    }
+                }
+            }
+            ... on ArtistDetailsPage {
+                ...ArtistDetailsPage
+            }
+        }
+    }
+}

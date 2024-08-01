@@ -1,0 +1,22 @@
+fragment LandingPage on LandingPage {
+    Title
+    Subtitle
+    BuyTicketBlock {
+        ...LandingPageBlockData
+    }
+    HeroImage
+    MainContentArea {
+        ContentLink {
+            Expanded {
+                ...ItemsInContentArea
+            }
+        }
+    }
+    FooterContentArea {
+        ContentLink {
+            Expanded {
+                ...ItemsInContentArea
+            }
+        }
+    }
+}
