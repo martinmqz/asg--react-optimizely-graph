@@ -1,0 +1,4 @@
+fragment LandingPageBuyTicketBlock on LandingPageBuyTicketBlock {
+    Heading
+    Message
+}
