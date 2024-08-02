@@ -11,7 +11,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
     const res = await fetch("https://cg.optimizely.com/content/v2?auth=pFanPnBpDrMHWgGvvoc4yDzCDgZUkbSYaiSUKQWOoxKBzBJO", {
     method: "POST",
-      body: JSON.stringify({ query, variables }),
+      body: JSON.stringify({ query, variables }).replace('"EPiServer"', '"en"'),
     });
 
     const json = await res.json();
